@@ -39,3 +39,13 @@ Result: ✅ passed (no commit yet; the repo starts in Phase 1).
   stopped on **`max_pages = 10` reached** (the feed had more pages).
 - Checks: `data/raw/jobs.ndjson` = **2,510 lines** = logged record count ✅; `context/sample_api.json` has
   **5 records** (remote, on-site, empty tags, several job_types, German titles) ✅.
+
+## Phase 4 – AI-assisted schema + Pydantic validation
+- Read only `context/sample_api.json`; confirmed the 10 expected fields (slug, company_name, title,
+  description, remote, url, tags, job_types, location, created_at) – no differences.
+- `src/models.py`: `Job` (strict bool `remote`, Unix → UTC `created_at`, `[]` defaults, stripped strings,
+  extra keys ignored) + `validate_records` (per-record, rejects keep index, slug and error text).
+- Prompt + 2-line summary recorded in `context/prompts.md` (Prompt 1).
+- Guardrail test `test_invalid_remote_value_is_rejected` (`"remote": "maybe"` → rejected) ✅ passes.
+- Checks: **2,510 valid + 0 rejected = 2,510 raw lines** ✅. Rejected count: **0**
+  (`data/processed/rejected.ndjson` written, empty).
