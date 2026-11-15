@@ -12,7 +12,7 @@ Project folder: `C:\Projects\lesson5_api_pipeline`
 - [x] `git config user.name` and `git config user.email` return values. Missing → stop and ask the user.
 - [x] Internet works: `Invoke-WebRequest https://www.arbeitnow.com/api/job-board-api -UseBasicParsing` returns status 200.
 
-**Done when:** versions are written to RUN_REPORT.md. (No commit yet: the repo starts in Phase 1.)
+✅ **Done when:** versions are written to RUN_REPORT.md. (No commit yet: the repo starts in Phase 1.)
 
 ---
 
@@ -23,7 +23,7 @@ Project folder: `C:\Projects\lesson5_api_pipeline`
 - [x] `.venv\Scripts\python.exe -m pip freeze > requirements.txt` (exact pins).
 - [x] `.vscode/settings.json` points `python.defaultInterpreterPath` to `.venv\\Scripts\\python.exe`.
 
-**Done when:** `.venv\Scripts\python.exe -c "import httpx, polars, pydantic; print('ok')"` prints `ok`;
+✅ **Done when:** `.venv\Scripts\python.exe -c "import httpx, polars, pydantic; print('ok')"` prints `ok`;
 `git status` does not list `.venv`.
 
 ---
@@ -45,7 +45,7 @@ context/prompts.md
       `db_path: Path`, optional `anthropic_api_key: SecretStr | None = None`.
       Missing or wrong-typed values must fail at startup. Export `settings = Settings()`.
 
-**Done when:** `.venv\Scripts\python.exe -c "from src.config import settings; print(settings.api_url)"`
+✅ **Done when:** `.venv\Scripts\python.exe -c "from src.config import settings; print(settings.api_url)"`
 prints the API URL; `git status` lists neither `.env` nor `.venv`.
 
 ---
@@ -77,7 +77,7 @@ Read ONLY `context/sample_api.json`. Generate `src/models.py`:
 - Append the exact prompt you used + a 2-line summary to `context/prompts.md`.
 - Demonstrate the guardrail in a test: a record with `"remote": "maybe"` lands in rejected.
 
-**Done when:** valid + rejected = raw line count; rejected count reported in RUN_REPORT.md.
+✅ **Done when:** valid + rejected = raw line count; rejected count reported in RUN_REPORT.md.
 
 ---
 
@@ -93,7 +93,7 @@ Follow `context/architecture.md`. In `src/transformer.py` (pure functions, LazyF
 - `check_grain(jobs, job_tags, job_types)`: raise if slug not unique in jobs; if
   `sum(tag_count)` ≠ rows in job_tags (after the same cleaning); if any child slug is missing in jobs.
 
-**Done when:** all three checks pass on the full data; counts logged.
+✅ **Done when:** all three checks pass on the full data; counts logged.
 
 ---
 

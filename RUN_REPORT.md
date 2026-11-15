@@ -49,3 +49,17 @@ Result: ✅ passed (no commit yet; the repo starts in Phase 1).
 - Guardrail test `test_invalid_remote_value_is_rejected` (`"remote": "maybe"` → rejected) ✅ passes.
 - Checks: **2,510 valid + 0 rejected = 2,510 raw lines** ✅. Rejected count: **0**
   (`data/processed/rejected.ndjson` written, empty).
+
+## Phase 5 – Polars transformation
+- `src/transformer.py` (pure, LazyFrame in → DataFrame out, native expressions only):
+  `jobs_to_lazyframe`, `dedupe_slugs`, `build_jobs`, `build_job_tags`, `build_job_types`, `check_grain`.
+- Seniority / job_function regex follow architecture.md (English + German, first match wins, `\b` on
+  short English words). Two small, documented refinements: `(^|[^g])leit(ung|er)` so "Begleiter"
+  (companion) is not a lead, and `steuer([^u]|$)` so "Steuerungstechnik" is not Finance. Added
+  `account manager` to Sales (Key/Strategic Account Managers were landing in "Other").
+- Counts on the full data: 2,510 valid → **4 duplicate slugs removed → 2,506 jobs**;
+  **2,756 job_tags** rows; **2,899 job_types** rows.
+- `check_grain` ✅ all pass: slug unique; sum(tag_count) = 2,756 = job_tags rows;
+  sum(job_type_count) = 2,899 = job_types rows; no orphan child slugs.
+- job_function: Other 972, Engineering 608, Sales 280, Data & Analytics 202, Marketing 149,
+  HR & Recruiting 88, Finance 84, Customer Support 65, Design 58.
