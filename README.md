@@ -44,7 +44,7 @@ Rerun analysis without calling the API again: `.venv\Scripts\python.exe main.py 
 
 ## Optional: MySQL copy
 If `MYSQL_PASSWORD` is set in `.env`, every run also writes the three tables to a MySQL database
-(default `hr_jobs` on `localhost:3306`, created automatically; utf8mb4, accent/case-sensitive collation,
+(default `HR_Jobs_Ani` on `localhost:3306`, created automatically; utf8mb4, accent/case-sensitive collation,
 same primary and foreign keys as SQLite). The run fails if MySQL row counts differ from SQLite.
 Leave `MYSQL_PASSWORD` empty to skip MySQL. Type the password into `.env` yourself – it is never committed.
 

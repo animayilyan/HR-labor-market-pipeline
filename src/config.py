@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     mysql_port: int = Field(default=3306, ge=1, le=65535)
     mysql_user: str = "root"
     mysql_password: SecretStr | None = None
-    mysql_database: str = Field(default="hr_jobs", pattern=r"^[A-Za-z0-9_]+$")
+    mysql_database: str = Field(default="HR_Jobs_Ani", pattern=r"^[A-Za-z0-9_]+$")
 
     raw_dir: Path = Path("data/raw")
     processed_dir: Path = Path("data/processed")
