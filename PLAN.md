@@ -61,7 +61,7 @@ prints the API URL; `git status` lists neither `.env` nor `.venv`.
   one with empty tags, one with several job_types, one non-English title if present).
 Temporary `main.py` step that runs only ingestion → `data/raw/jobs.ndjson`, `context/sample_api.json`.
 
-**Done when:** raw file line count = number of records the ingestor logged; sample has 5 records;
+✅ **Done when:** raw file line count = number of records the ingestor logged; sample has 5 records;
 log shows pages fetched and that it stopped on `links.next = null` or on `max_pages`.
 
 ---

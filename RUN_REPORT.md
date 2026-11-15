@@ -29,3 +29,13 @@ Result: ✅ passed (no commit yet; the repo starts in Phase 1).
 - Checks: `print(settings.api_url)` → `https://www.arbeitnow.com/api/job-board-api` ✅;
   `API_URL=not-a-url` and `MAX_PAGES=abc` both fail at import with a ValidationError ✅;
   `git status` lists neither `.env` nor `.venv` ✅.
+
+## Phase 3 – Ingestion (pagination, retries, NDJSON)
+- `src/ingestor.py`: `JobBoardIngestor` (follows `links.next`, 1 s pause between pages, `MAX_PAGES` cap,
+  retries timeouts / connection errors / 429 / 5xx with 1-2-4 s backoff, clear `IngestionError` on other 4xx,
+  project `User-Agent`), `save_ndjson`, `read_ndjson`, `save_sample` (variety-first).
+- Temporary `main.py` ran ingestion only.
+- Log: pages 1–5 had 300 records, page 6 had 210, pages 7–10 had 200 → **10 pages, 2,510 records**,
+  stopped on **`max_pages = 10` reached** (the feed had more pages).
+- Checks: `data/raw/jobs.ndjson` = **2,510 lines** = logged record count ✅; `context/sample_api.json` has
+  **5 records** (remote, on-site, empty tags, several job_types, German titles) ✅.
