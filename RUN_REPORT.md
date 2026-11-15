@@ -63,3 +63,16 @@ Result: ✅ passed (no commit yet; the repo starts in Phase 1).
   sum(job_type_count) = 2,899 = job_types rows; no orphan child slugs.
 - job_function: Other 972, Engineering 608, Sales 280, Data & Analytics 202, Marketing 149,
   HR & Recruiting 88, Finance 84, Customer Support 65, Design 58.
+
+## Phase 6 – Storage + HR analysis
+- `src/storage.py`: SQLite via `sqlite3` – `jobs` (slug PK), `job_tags` / `job_types` (composite PK, FK → jobs,
+  `PRAGMA foreign_keys = ON`); drop + recreate in **one transaction** (`BEGIN … COMMIT`, rollback on error),
+  `executemany`; also writes `data/processed/{jobs,job_tags,job_types}.parquet` and `run_meta.json`.
+- `src/analysis.py`: all 12 questions from `hr_questions.md` answered with Polars from the Parquet files;
+  markdown tables rendered with native Polars string expressions. `job_tags` and `job_types` are never
+  joined together (Q10 joins only `job_tags` ⋈ `jobs`, which is 1:N). Locations are free text, so a
+  `normalize_city` expression merges variants (e.g. "9th arrondissement of Paris" → Paris, Zurich → Zürich,
+  "Remote job"/"Homeoffice" → Remote / home office). Takeaways are computed from the numbers.
+- Checks (run twice with a temporary driver script outside the repo): `pipeline.db` + 3 Parquet files exist ✅;
+  `reports/summary.md` has all 12 sections + headline findings with real numbers ✅;
+  both runs → jobs **2,506**, job_tags **2,756**, job_types **2,899** (identical) ✅.

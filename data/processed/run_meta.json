@@ -1,0 +1,9 @@
+{
+  "ingested_at": "2026-11-15T18:11:42.392788+00:00",
+  "pages_fetched": 10,
+  "stop_reason": "max_pages = 10 reached",
+  "raw_records": 2510,
+  "valid_records": 2510,
+  "rejected_records": 0,
+  "duplicates_removed": 4
+}

@@ -106,7 +106,7 @@ Follow `context/architecture.md`. In `src/transformer.py` (pure functions, LazyF
 Write `reports/summary.md`: one section per question, a small markdown table + a one-line takeaway.
 NEVER join job_tags and job_types in the same query (tags × types fan-out); aggregate each separately.
 
-**Done when:** `pipeline.db` and 3 Parquet files exist; `summary.md` has every section with real numbers;
+✅ **Done when:** `pipeline.db` and 3 Parquet files exist; `summary.md` has every section with real numbers;
 running the pipeline twice gives identical row counts.
 
 ---
