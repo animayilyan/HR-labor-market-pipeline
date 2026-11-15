@@ -120,7 +120,7 @@ running the pipeline twice gives identical row counts.
   created_at → datetime, `check_grain` raises on mismatched counts, invalid record rejected.
 - README.md: complete every section marked TODO; insert the headline findings from summary.md.
 
-**Done when:** `.venv\Scripts\python.exe main.py` completes end to end; `-m pytest` all green;
+✅ **Done when:** `.venv\Scripts\python.exe main.py` completes end to end; `-m pytest` all green;
 final commit made; RUN_REPORT.md ends with a plain-language summary for Ani.
 
 ---
@@ -130,3 +130,5 @@ final commit made; RUN_REPORT.md ends with a plain-language summary for Ani.
 "Other", send ONLY the titles (max 50, one batched call) to the Anthropic API, require a
 Pydantic-validated JSON answer from a fixed category list, temperature 0, and fill the gaps.
 If no key is set: skip silently and note "LLM fallback skipped: no key" in RUN_REPORT.md.
+
+✅ No key set → skipped; noted in RUN_REPORT.md.

@@ -1,29 +1,38 @@
-"""Temporary Phase 3 entry point: run ingestion only (replaced by PipelineRunner in Phase 7)."""
+"""Command-line entry point for the HR job-market pipeline.
 
+Usage (Windows PowerShell):
+    .venv\\Scripts\\python.exe main.py                # fetch from the API, then everything else
+    .venv\\Scripts\\python.exe main.py --skip-ingest  # reuse data/raw/jobs.ndjson (no API calls)
+"""
+
+import argparse
 import logging
+import sys
 
 from src.config import settings
-from src.ingestor import JobBoardIngestor, save_ndjson, save_sample
+from src.pipeline import PipelineRunner
 
 
-def main() -> None:
-    """Fetch all pages, write data/raw/jobs.ndjson and context/sample_api.json."""
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
-    ingestor = JobBoardIngestor(
-        api_url=str(settings.api_url),
-        timeout=settings.request_timeout,
-        max_retries=settings.max_retries,
-        max_pages=settings.max_pages,
-        page_delay_seconds=settings.page_delay_seconds,
-    )
-    try:
-        records = ingestor.fetch_all()
-    finally:
-        ingestor.close()
-    written = save_ndjson(records, settings.raw_dir / "jobs.ndjson")
-    sample = save_sample(records, settings.context_dir / "sample_api.json")
-    logging.info("Wrote %d raw lines, %d sample records", written, len(sample))
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    """Parse command-line flags."""
+    parser = argparse.ArgumentParser(description="Arbeitnow HR job-market pipeline")
+    parser.add_argument("--skip-ingest", action="store_true",
+                        help="reuse data/raw/jobs.ndjson instead of calling the API")
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Run the pipeline; return a process exit code."""
+    args = parse_args(argv)
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)-7s %(name)s: %(message)s")
+    logging.getLogger("httpx").setLevel(logging.WARNING)  # page logs come from src.ingestor
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")  # German/French text in logs on Windows consoles
+        sys.stderr.reconfigure(encoding="utf-8")
+    meta = PipelineRunner(settings).run(skip_ingest=args.skip_ingest)
+    logging.info("Done: %s", meta["tables"])
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

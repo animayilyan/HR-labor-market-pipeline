@@ -1,10 +1,10 @@
 # HR Job-Market Summary (Arbeitnow)
 
-Snapshot: 2026-11-15 18:11 UTC · 10 API pages · job data courtesy of [Arbeitnow](https://www.arbeitnow.com/).
+Snapshot: 2026-11-15 18:19 UTC · 10 API pages · job data courtesy of [Arbeitnow](https://www.arbeitnow.com/).
 Seniority and job function are derived from title keywords (English + German).
 
 ## Headline findings
-- **2,506 job postings** from **1,035 companies** (2026-11-08 → 2026-11-15).
+- **2,505 job postings** from **1,035 companies** (2026-11-08 → 2026-11-15).
 - Top hiring company: **Doctolib** (56 postings); the top 15 employers post 15.1% of all jobs.
 - Most demanded skill tags: **engineering, sales, remote**.
 - **6.4% of jobs are remote**; the rest are on-site or hybrid.
@@ -18,16 +18,16 @@ Seniority and job function are derived from title keywords (English + German).
 
 | metric | value |
 |---|---|
-| Job postings (unique) | 2,506 |
+| Job postings (unique) | 2,505 |
 | Hiring companies | 1,035 |
 | Distinct skill tags | 686 |
 | Distinct job types | 105 |
 | Earliest posting | 2026-11-08 |
 | Latest posting | 2026-11-15 |
 | API pages fetched | 10 (max_pages = 10 reached) |
-| Snapshot taken (UTC) | 2026-11-15 18:11 |
+| Snapshot taken (UTC) | 2026-11-15 18:19 |
 
-**Takeaway:** 2,506 unique postings from 1,035 companies, posted between 2026-11-08 and 2026-11-15.
+**Takeaway:** 2,505 unique postings from 1,035 companies, posted between 2026-11-08 and 2026-11-15.
 
 ## 2. Top hiring companies
 
@@ -82,7 +82,7 @@ Seniority and job function are derived from title keywords (English + German).
 
 | work_mode | jobs | share |
 |---|---|---|
-| On-site / hybrid | 2346 | 93.6% |
+| On-site / hybrid | 2345 | 93.6% |
 | Remote | 160 | 6.4% |
 
 **Takeaway:** Only 6.4% of postings are flagged remote by the API; the rest are on-site or hybrid (the flag does not separate the two).
@@ -91,8 +91,8 @@ Seniority and job function are derived from title keywords (English + German).
 
 | job_type | jobs | share_of_jobs |
 |---|---|---|
-| full time | 872 | 34.8% |
-| (none given) | 575 | 22.9% |
+| full time | 871 | 34.8% |
+| (none given) | 575 | 23.0% |
 | unbefristeter arbeitsvertrag | 334 | 13.3% |
 | berufserfahren | 229 | 9.1% |
 | fulltime permanent | 168 | 6.7% |
@@ -112,7 +112,7 @@ Seniority and job function are derived from title keywords (English + German).
 | freelance | 35 | 1.4% |
 | permanent employment (unbefristeter arbeitsvertrag) | 30 | 1.2% |
 
-**Takeaway:** "full time" is the most common type (872 jobs). Labels mix English and German (e.g. contract type and experience level), and one job can carry several.
+**Takeaway:** "full time" is the most common type (871 jobs). Labels mix English and German (e.g. contract type and experience level), and one job can carry several.
 
 ## 6. Where the jobs are (top 15 locations)
 
@@ -122,7 +122,7 @@ Seniority and job function are derived from title keywords (English + German).
 | London | 318 | 12.7% |
 | Berlin | 271 | 10.8% |
 | Munich | 185 | 7.4% |
-| Remote / home office | 114 | 4.5% |
+| Remote / home office | 114 | 4.6% |
 | Zürich | 102 | 4.1% |
 | (not given) | 98 | 3.9% |
 | Amsterdam | 83 | 3.3% |
@@ -142,7 +142,7 @@ Seniority and job function are derived from title keywords (English + German).
 |---|---|---|
 | Intern | 161 | 6.4% |
 | Junior | 65 | 2.6% |
-| Mid / unspecified | 1096 | 43.7% |
+| Mid / unspecified | 1095 | 43.7% |
 | Senior | 435 | 17.4% |
 | Lead | 749 | 29.9% |
 
@@ -152,7 +152,7 @@ Seniority and job function are derived from title keywords (English + German).
 
 | job_function | jobs | share |
 |---|---|---|
-| Other | 972 | 38.8% |
+| Other | 971 | 38.8% |
 | Engineering | 608 | 24.3% |
 | Sales | 280 | 11.2% |
 | Data & Analytics | 202 | 8.1% |
@@ -162,7 +162,7 @@ Seniority and job function are derived from title keywords (English + German).
 | Customer Support | 65 | 2.6% |
 | Design | 58 | 2.3% |
 
-**Takeaway:** Engineering is the largest classified function (608, 24.3%); 972 jobs (38.8%) stayed "Other" (keyword rules only; LLM fallback was not run).
+**Takeaway:** Engineering is the largest classified function (608, 24.3%); 971 jobs (38.8%) stayed "Other" (keyword rules only; LLM fallback was not run).
 
 ## 9. Remote share by job function (functions with ≥ 10 jobs)
 
@@ -172,7 +172,7 @@ Seniority and job function are derived from title keywords (English + German).
 | Sales | 280 | 29 | 10.4% |
 | Design | 58 | 6 | 10.3% |
 | Finance | 84 | 7 | 8.3% |
-| Other | 972 | 55 | 5.7% |
+| Other | 971 | 55 | 5.7% |
 | Engineering | 608 | 32 | 5.3% |
 | Customer Support | 65 | 3 | 4.6% |
 | Data & Analytics | 202 | 9 | 4.5% |
@@ -201,7 +201,7 @@ Seniority and job function are derived from title keywords (English + German).
 
 | posted | jobs | share |
 |---|---|---|
-| ≤ 7 days | 2506 | 100.0% |
+| ≤ 7 days | 2505 | 100.0% |
 | 8–30 days | 0 | 0.0% |
 | > 30 days | 0 | 0.0% |
 
@@ -213,10 +213,10 @@ Seniority and job function are derived from title keywords (English + German).
 |---|---|
 | Raw records fetched | 2510 |
 | Rejected by Pydantic | 0 |
-| Duplicate slugs removed | 4 |
-| Unique jobs kept | 2506 |
+| Duplicate slugs removed | 5 |
+| Unique jobs kept | 2505 |
 | Jobs with no tags | 80 (3.2%) |
-| Jobs with no job type | 575 (22.9%) |
+| Jobs with no job type | 575 (23.0%) |
 | Jobs with no location | 98 (3.9%) |
 
-**Takeaway:** 0 records failed validation and 4 duplicates were removed; the biggest gap is a missing job type (22.9% of jobs).
+**Takeaway:** 0 records failed validation and 5 duplicates were removed; the biggest gap is a missing job type (23.0% of jobs).

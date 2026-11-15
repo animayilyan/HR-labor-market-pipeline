@@ -76,3 +76,55 @@ Result: ✅ passed (no commit yet; the repo starts in Phase 1).
 - Checks (run twice with a temporary driver script outside the repo): `pipeline.db` + 3 Parquet files exist ✅;
   `reports/summary.md` has all 12 sections + headline findings with real numbers ✅;
   both runs → jobs **2,506**, job_tags **2,756**, job_types **2,899** (identical) ✅.
+
+## Phase 7 – PipelineRunner, tests, README
+- `src/pipeline.py`: `PipelineRunner(settings).run(skip_ingest)` – ingest → validate → transform → check_grain →
+  store → analyze, logging row counts per stage; writes `data/processed/run_meta.json`.
+  `--skip-ingest` reuses the raw file and the previous run's ingest facts, so reruns are reproducible.
+- `main.py`: argparse entry point with `--skip-ingest`.
+- Tests (all offline): `tests/test_transformer.py` (7 tests: duplicate slug removed, tags exploded + cleaned,
+  EN/DE seniority + job_function, word-boundary guard, created_at → UTC datetime, `check_grain` raises,
+  `"remote": "maybe"` rejected) and `tests/test_ingestor.py` (3 tests with `httpx.MockTransport`: paging to
+  `links.next = null` with a retried 503, `MAX_PAGES` stop, clear 404 error).
+- Added `tzdata==2026.6` to requirements: Windows has no time-zone database, and Polars needs it to hand
+  UTC timestamps to Python (2 tests failed without it).
+- README: repository map, "How AI was used" and headline findings filled in; Arbeitnow credited.
+- **LLM fallback skipped: no key** (`ANTHROPIC_API_KEY` not set in `.env`).
+- Checks: `.venv\Scripts\python.exe main.py` completed end to end (fresh API pull: 10 pages, 2,510 records,
+  0 rejected, 5 duplicates → **2,505 jobs / 2,755 job_tags / 2,898 job_types**, grain ✅) ✅;
+  `main.py --skip-ingest` twice → identical counts and byte-identical `summary.md` ✅;
+  `-m pytest` → **10 passed** ✅.
+- Note: the live feed changes every hour, so a fresh run can differ slightly from Phase 5/6
+  (2,506 jobs then vs 2,505 now) – that is new postings, not a bug.
+
+---
+
+## Summary for Ani (plain language)
+
+**What the pipeline does:** it downloads job ads from the free Arbeitnow job board, checks every ad,
+tidies the data into three tables, saves them, and writes an HR report – with one command:
+`.venv\Scripts\python.exe main.py`.
+
+| Phase | What it produced |
+|---|---|
+| 0 | Checked your computer: Python 3.15, Git 2.56 and the internet all work. |
+| 1 | A Git project (history of every step) and a private Python "toolbox" (`.venv`) with the exact library versions in `requirements.txt`. |
+| 2 | The folder structure and a settings file (`.env`) that the program checks at start-up. |
+| 3 | A polite downloader: reads the job board page by page (1 second apart, max 10 pages, retries on errors). Saved 2,510 job ads to `data/raw/jobs.ndjson`. |
+| 4 | A "bouncer" for the data (Pydantic): every ad must have the right fields and types. All 2,510 passed; a test shows a fake ad with `remote = "maybe"` is rejected. |
+| 5 | Clean tables (Polars): duplicates removed, seniority and job function guessed from the title in English **and** German (e.g. "Werkstudent" → Intern), tags split out. Safety checks confirm nothing is double-counted. |
+| 6 | Storage: a SQLite database `data/processed/pipeline.db` plus Parquet files, and the HR report `reports/summary.md`. |
+| 7 | One command runs everything; 10 automatic tests; README completed. |
+
+**Headline HR findings (15 Nov 2026 snapshot, 2,505 jobs, 1,035 companies):**
+- Only **6.4% of jobs are fully remote** – most roles still expect you on-site or hybrid.
+- **Engineering is the biggest field** (24%), then Sales (11%) and Data & Analytics (8%).
+- **Entry-level jobs are rare:** internships + junior roles are only 9% of postings.
+- The jobs are concentrated in **Paris, London and Berlin**, then Munich and Zürich.
+- **Doctolib** posts the most jobs (56). The most common skill tags are engineering, sales and remote.
+- Data quality is good (0 rejected, 5 duplicates). The main gap is that 23% of ads give no job type.
+  About 39% of titles didn't match any job-function keyword ("Other"); the optional AI step that would
+  classify those was skipped because no API key was set.
+
+**Where to look:** `reports/summary.md` (the report), `README.md` (overview), `data/processed/` (database
+and Parquet files), `RUN_REPORT.md` (this log), `context/prompts.md` (the AI prompt used for the schema).

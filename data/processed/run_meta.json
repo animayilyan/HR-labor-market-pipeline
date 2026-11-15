@@ -1,9 +1,15 @@
 {
-  "ingested_at": "2026-11-15T18:11:42.392788+00:00",
+  "ingested_at": "2026-11-15T18:19:44+00:00",
   "pages_fetched": 10,
   "stop_reason": "max_pages = 10 reached",
+  "llm_fallback": "skipped: no key",
   "raw_records": 2510,
   "valid_records": 2510,
   "rejected_records": 0,
-  "duplicates_removed": 4
+  "duplicates_removed": 5,
+  "tables": {
+    "jobs": 2505,
+    "job_tags": 2755,
+    "job_types": 2898
+  }
 }
