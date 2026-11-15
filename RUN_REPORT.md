@@ -19,3 +19,13 @@ Result: ✅ passed (no commit yet; the repo starts in Phase 1).
   pydantic-settings 2.16.3, python-dotenv 1.2.4, pytest 9.2.0 → `requirements.txt` (21 exact pins).
 - `.vscode/settings.json` → `python.defaultInterpreterPath` = `.venv\Scripts\python.exe`.
 - Checks: `import httpx, polars, pydantic` → `ok` ✅; `git status` does not list `.venv` ✅.
+
+## Phase 2 – Scaffold, config and AI context
+- Created `main.py`, `src/` (config, ingestor, models, transformer, storage, analysis, pipeline),
+  `tests/`, `data/raw/`, `data/processed/`, `reports/` (with `.gitkeep`), `context/prompts.md`.
+- `.env` copied from `.env.example` (not read, not committed).
+- `src/config.py`: pydantic-settings `Settings` (HttpUrl, float/int with range checks, Path resolved
+  against the project root, optional `SecretStr` key; blank key = not set).
+- Checks: `print(settings.api_url)` → `https://www.arbeitnow.com/api/job-board-api` ✅;
+  `API_URL=not-a-url` and `MAX_PAGES=abc` both fail at import with a ValidationError ✅;
+  `git status` lists neither `.env` nor `.venv` ✅.

@@ -39,8 +39,8 @@ tests/__init__.py, tests/test_transformer.py
 data/raw/  data/processed/  reports/   (add a .gitkeep in each)
 context/prompts.md
 ```
-- [ ] Copy `.env.example` to `.env` (no secrets needed for this API).
-- [ ] `src/config.py`: pydantic-settings `Settings` reading `.env`; fields `api_url: HttpUrl`,
+- [x] Copy `.env.example` to `.env` (no secrets needed for this API).
+- [x] `src/config.py`: pydantic-settings `Settings` reading `.env`; fields `api_url: HttpUrl`,
       `request_timeout: float`, `max_retries: int`, `max_pages: int`, `page_delay_seconds: float`,
       `db_path: Path`, optional `anthropic_api_key: SecretStr | None = None`.
       Missing or wrong-typed values must fail at startup. Export `settings = Settings()`.
