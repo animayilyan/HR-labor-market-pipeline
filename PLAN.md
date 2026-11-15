@@ -1,4 +1,4 @@
-# PLAN – Lesson 5 HR Job-Market Pipeline
+# PLAN – HR Job-Market Pipeline
 
 Claude Code: work through every phase in order. Tick `[x]` as checks pass.
 Project folder: `C:\Projects\lesson5_api_pipeline`
