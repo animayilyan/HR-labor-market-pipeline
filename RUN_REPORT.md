@@ -128,3 +128,12 @@ tidies the data into three tables, saves them, and writes an HR report – with 
 
 **Where to look:** `reports/summary.md` (the report), `README.md` (overview), `data/processed/` (database
 and Parquet files), `RUN_REPORT.md` (this log), `context/prompts.md` (the AI prompt used for the schema).
+
+## Extra – Optional MySQL export (added on request)
+- Found MySQL Server 8.0 running locally (service `MySQL80`, port 3306).
+- Added PyMySQL (+ `cryptography` for MySQL 8 `caching_sha2_password` login) to `requirements.txt`.
+- `src/config.py`: optional `MYSQL_HOST/PORT/USER/PASSWORD/DATABASE` (password as `SecretStr`);
+  `src/storage.py`: `write_mysql` (creates `hr_jobs`, utf8mb4 + `utf8mb4_0900_as_cs`, PK/FK like SQLite,
+  inserts in one transaction); `src/pipeline.py` runs it only when `MYSQL_PASSWORD` is set and checks
+  that MySQL counts equal SQLite counts.
+- Without a password: `MySQL skipped (MYSQL_PASSWORD not set in .env)`; tests 10 passed.

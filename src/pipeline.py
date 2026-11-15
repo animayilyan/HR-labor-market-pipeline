@@ -8,7 +8,7 @@ from src.analysis import headline_findings, write_summary
 from src.config import Settings
 from src.ingestor import JobBoardIngestor, read_ndjson, save_ndjson, save_sample
 from src.models import validate_records
-from src.storage import read_json, write_json, write_parquet, write_sqlite
+from src.storage import read_json, write_json, write_mysql, write_parquet, write_sqlite
 from src.transformer import build_job_tags, build_job_types, build_jobs, check_grain, jobs_to_lazyframe
 
 logger = logging.getLogger(__name__)
@@ -89,6 +89,18 @@ class PipelineRunner:
         db_counts = write_sqlite(s.db_path, tables)
         write_parquet(s.processed_dir, tables)
         logger.info("Stage store: SQLite %s + 3 Parquet files in %s", db_counts, s.processed_dir.name)
+
+        if s.mysql_enabled and s.mysql_password is not None:
+            mysql_counts = write_mysql(tables, s.mysql_host, s.mysql_port, s.mysql_user,
+                                       s.mysql_password.get_secret_value(), s.mysql_database)
+            if mysql_counts != db_counts:
+                raise RuntimeError(f"MySQL counts {mysql_counts} differ from SQLite {db_counts}")
+            logger.info("Stage store: MySQL %s@%s:%d/%s %s", s.mysql_user, s.mysql_host,
+                        s.mysql_port, s.mysql_database, mysql_counts)
+            meta["mysql"] = f"{s.mysql_host}:{s.mysql_port}/{s.mysql_database}"
+        else:
+            logger.info("Stage store: MySQL skipped (MYSQL_PASSWORD not set in .env)")
+            meta["mysql"] = "skipped: no password"
 
         meta |= {"raw_records": len(raw), "valid_records": len(valid),
                  "rejected_records": len(rejected), "duplicates_removed": duplicates,

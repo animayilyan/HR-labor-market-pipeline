@@ -28,7 +28,7 @@ Rerun analysis without calling the API again: `.venv\Scripts\python.exe main.py 
 | `src/ingestor.py` | `JobBoardIngestor`: follows `links.next`, 1 s between pages, `MAX_PAGES` cap, retries with 1-2-4 s backoff; NDJSON + sample writers |
 | `src/models.py` | Pydantic `Job` model + `validate_records` (bad records are collected, never fatal) |
 | `src/transformer.py` | Pure Polars functions: dedupe, seniority / job-function regex (EN + DE), `jobs` / `job_tags` / `job_types`, `check_grain` |
-| `src/storage.py` | SQLite (PK + FK, one transaction, `executemany`) and Parquet writers |
+| `src/storage.py` | SQLite (PK + FK, one transaction, `executemany`), optional MySQL, and Parquet writers |
 | `src/analysis.py` | Answers the 12 HR questions with Polars and writes `reports/summary.md` |
 | `src/pipeline.py` | `PipelineRunner`: ingest → validate → transform → check_grain → store → analyze |
 | `tests/test_transformer.py` | Offline tests: dedupe, tag cleaning, EN/DE regex, UTC dates, grain errors, rejected record |
@@ -41,6 +41,12 @@ Rerun analysis without calling the API again: `.venv\Scripts\python.exe main.py 
 | `data/processed/` | `pipeline.db` (SQLite), `jobs/job_tags/job_types.parquet`, `rejected.ndjson`, `run_meta.json` |
 | `reports/summary.md` | HR analytics summary: one section per question, table + takeaway |
 | `PLAN.md` / `RUN_REPORT.md` | The build plan and the log of what each phase produced |
+
+## Optional: MySQL copy
+If `MYSQL_PASSWORD` is set in `.env`, every run also writes the three tables to a MySQL database
+(default `hr_jobs` on `localhost:3306`, created automatically; utf8mb4, accent/case-sensitive collation,
+same primary and foreign keys as SQLite). The run fails if MySQL row counts differ from SQLite.
+Leave `MYSQL_PASSWORD` empty to skip MySQL. Type the password into `.env` yourself – it is never committed.
 
 ## Testing
 ```powershell

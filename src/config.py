@@ -32,6 +32,13 @@ class Settings(BaseSettings):
     db_path: Path
     anthropic_api_key: SecretStr | None = None
 
+    # Optional MySQL copy of the three tables; skipped while MYSQL_PASSWORD is not set.
+    mysql_host: str = "localhost"
+    mysql_port: int = Field(default=3306, ge=1, le=65535)
+    mysql_user: str = "root"
+    mysql_password: SecretStr | None = None
+    mysql_database: str = Field(default="hr_jobs", pattern=r"^[A-Za-z0-9_]+$")
+
     raw_dir: Path = Path("data/raw")
     processed_dir: Path = Path("data/processed")
     reports_dir: Path = Path("reports")
@@ -42,6 +49,11 @@ class Settings(BaseSettings):
     def _resolve_path(cls, value: Path) -> Path:
         """Make relative paths absolute, anchored at the project root."""
         return value if value.is_absolute() else PROJECT_ROOT / value
+
+    @property
+    def mysql_enabled(self) -> bool:
+        """True when a MySQL password is configured, i.e. the MySQL export should run."""
+        return self.mysql_password is not None
 
 
 settings: Settings = Settings()  # type: ignore[call-arg]  # values come from .env
