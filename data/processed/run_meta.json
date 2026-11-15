@@ -3,7 +3,7 @@
   "pages_fetched": 10,
   "stop_reason": "max_pages = 10 reached",
   "llm_fallback": "skipped: no key",
-  "mysql": "skipped: no password",
+  "mysql": "written to database hr_jobs",
   "raw_records": 2510,
   "valid_records": 2510,
   "rejected_records": 0,

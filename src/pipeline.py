@@ -97,7 +97,7 @@ class PipelineRunner:
                 raise RuntimeError(f"MySQL counts {mysql_counts} differ from SQLite {db_counts}")
             logger.info("Stage store: MySQL %s@%s:%d/%s %s", s.mysql_user, s.mysql_host,
                         s.mysql_port, s.mysql_database, mysql_counts)
-            meta["mysql"] = f"{s.mysql_host}:{s.mysql_port}/{s.mysql_database}"
+            meta["mysql"] = f"written to database {s.mysql_database}"  # no host: this file is committed
         else:
             logger.info("Stage store: MySQL skipped (MYSQL_PASSWORD not set in .env)")
             meta["mysql"] = "skipped: no password"
